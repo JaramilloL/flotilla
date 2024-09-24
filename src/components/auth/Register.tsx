@@ -1,8 +1,18 @@
 import { Box, TextField, Button } from '@mui/material'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { Auth } from '../../interfaces/globalTypes'
+import { useContext } from 'react'
+import { UserContext } from '../../context/UserContext'
 
 const Register = () => {
+    //llamamos el estado creado para asignarle el usuario creado
+    const context = useContext(UserContext)
+     // Verificar si el contexto existe
+  if (!context) {
+    throw new Error("UserContext debe estar dentro de un StateContext");
+  }
+    //desestructuramos el context
+    const { signUpUser } = context || {};
     //usaremos la libreria de react-hook-form para registrar los datos del usuario
     const { handleSubmit, reset, register, formState: { errors } } = useForm<Auth>()//le pasamos los parametros a esperar
 
@@ -10,6 +20,7 @@ const Register = () => {
     const onSubmit: SubmitHandler<Auth> = (data) => {
         try {
             console.log(data)
+            signUpUser(data.email, data.password);
             reset()
         } catch (error) {
             if(error instanceof Error) {

@@ -1,3 +1,4 @@
+import { User } from "@supabase/supabase-js";
 import { ReactNode } from "react";
 
 export interface Auth{
@@ -66,4 +67,9 @@ export interface Maintenance{
 
 export interface StateChildren{
     children: ReactNode
+}
+
+export interface StateUser{
+    signUpUser: (email: string, password: string) => Promise<void>;
+    user: User | null; 
 }

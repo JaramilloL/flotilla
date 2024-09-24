@@ -18,9 +18,9 @@ const StateContext = ({ children }: StateChildren) => {
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
-        options: {
-          emailRedirectTo: "http://localhost:5173/user",
-        },
+        // options: {
+        //   emailRedirectTo: "http://localhost:5173/users",
+        // },
       });
       if (error) {
         console.log(error.message);
