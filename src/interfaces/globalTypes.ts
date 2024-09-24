@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface Auth{
     username?: string;
     email: string;
@@ -60,4 +62,8 @@ export interface Maintenance{
     date: string;
     cost: number;
     notes: string;
+}
+
+export interface StateChildren{
+    children: ReactNode
 }
