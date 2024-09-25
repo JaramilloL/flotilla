@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { Auth } from '../../interfaces/globalTypes'
 import { useContext } from 'react'
 import { UserContext } from '../../context/UserContext'
+import { useNavigate } from 'react-router-dom'
 
 const Register = () => {
     //llamamos el estado creado para asignarle el usuario creado
@@ -13,6 +14,9 @@ const Register = () => {
   }
     //desestructuramos el context
     const { signUpUser } = context || {};
+
+    //usamos el hook de react-router-dom usenavigate para redireccionar al usuario
+    const navigate = useNavigate()
     //usaremos la libreria de react-hook-form para registrar los datos del usuario
     const { handleSubmit, reset, register, formState: { errors } } = useForm<Auth>()//le pasamos los parametros a esperar
 
@@ -22,6 +26,7 @@ const Register = () => {
             console.log(data)
             signUpUser(data.email, data.password);
             reset()
+            navigate('/')
         } catch (error) {
             if(error instanceof Error) {
                 console.log(error.message)

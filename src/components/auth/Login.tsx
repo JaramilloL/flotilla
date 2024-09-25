@@ -1,8 +1,23 @@
 import { Box, Button, TextField } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Auth } from "../../interfaces/globalTypes";
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  //usamos el contexto de la app para iniciar secion
+  const context = useContext(UserContext)
+
+  if(!context){
+    throw new Error("Usuario no logeado correctamente");
+  }
+
+  const { sigIn } = context || {};
+
+  //usamos la navegacion para la reedireccion
+  const navigate = useNavigate()
+
   //usaremos la libreria de react-hook-form para registrar los datos del usuario
   const {
     handleSubmit,
@@ -15,6 +30,8 @@ const Login = () => {
   const onSubmit: SubmitHandler<Auth> = (data) => {
     try {
       console.log(data);
+      sigIn(data.email, data.password)
+      navigate('/users')
       reset();
     } catch (error) {
       if (error instanceof Error) {

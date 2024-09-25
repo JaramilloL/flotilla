@@ -72,4 +72,5 @@ export interface StateChildren{
 export interface StateUser{
     signUpUser: (email: string, password: string) => Promise<void>;
     user: User | null; 
+    sigIn: (email: string, password: string) => Promise<void>;
 }

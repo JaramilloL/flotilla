@@ -18,9 +18,9 @@ const StateContext = ({ children }: StateChildren) => {
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
-        // options: {
-        //   emailRedirectTo: "http://localhost:5173/users",
-        // },
+        options: {
+          emailRedirectTo: "http://localhost:5173/users",
+        },
       });
       if (error) {
         console.log(error.message);
@@ -36,11 +36,32 @@ const StateContext = ({ children }: StateChildren) => {
     }
   };
 
+  const sigIn = async(email: string, password: string): Promise<void> => {
+    try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email,
+            password
+        })
+
+        if(error){
+            console.log(error.message);
+        }else if (data.user){
+            console.log(data.session)
+            console.log(data.session.access_token)
+        }
+    } catch (error) {
+        if(error instanceof Error) {
+            console.log(error.message);
+        }
+    }
+  }
+
   return (
     <UserContext.Provider
       value={{
         signUpUser,
         user,
+        sigIn,
       }}
     >
       {children}
