@@ -56,12 +56,26 @@ const StateContext = ({ children }: StateChildren) => {
     }
   }
 
+  const signOutUser =async()=>{
+    try {
+        const { error } = await supabase.auth.signOut()
+        if(error) {
+            console.log(error.message);
+        }
+    } catch (error) {
+        if(error instanceof Error) {
+            console.log(error.message);
+        }
+    }
+  }
+
   return (
     <UserContext.Provider
       value={{
         signUpUser,
         user,
         sigIn,
+        signOutUser
       }}
     >
       {children}
