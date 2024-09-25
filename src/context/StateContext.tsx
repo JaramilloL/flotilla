@@ -1,13 +1,15 @@
 import { createClient, User } from "@supabase/supabase-js";
 import { StateChildren } from "../interfaces/globalTypes";
 import { UserContext } from "./UserContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+//se movio fuera del componente para evitar multiples resderizados
+const supabase = createClient(
+  import.meta.env.VITE_APP_URL || "",
+  import.meta.env.VITE_APP_KEY || ""
+);
 
 const StateContext = ({ children }: StateChildren) => {
-  const supabase = createClient(
-    import.meta.env.VITE_APP_URL || "",
-    import.meta.env.VITE_APP_KEY || ""
-  );
 
   //creamos un estao para almacenar el login
   const [user, setUser] = useState<User | null>(null);
@@ -25,7 +27,7 @@ const StateContext = ({ children }: StateChildren) => {
       if (error) {
         console.log(error.message);
       } else if (data.user) {
-        setUser(data.user);
+        // setUser(data.user);
         console.log("Usuario registrado:", data.user);
       }
       console.log(user);
@@ -68,6 +70,19 @@ const StateContext = ({ children }: StateChildren) => {
         }
     }
   }
+
+  //creamos un escucha para ver si el usuario es autenticado o no ya que define el acceso o no a la pagina
+  useEffect(()=>{
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session)=>{ 
+        setUser(session?.user ?? null)
+        console.log("Auth event:", event);
+        console.log("User:", session?.user ?? null);
+    })
+
+    return ()=> {
+        authListener?.subscription.unsubscribe();   
+    }
+  },[])
 
   return (
     <UserContext.Provider

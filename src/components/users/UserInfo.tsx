@@ -1,31 +1,36 @@
 import Button from '@mui/material/Button'
 import { useContext } from 'react'
 import { UserContext } from '../../context/UserContext'
-import { useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 
 const UserInfo = () => {
+    //creamos la navegacion a inicio o login
     const context = useContext(UserContext)
-
-    const { signOutUser } = context || {}
 
     if(!context) {
         throw new Error('a fallado')
     }
 
-    const navigate = useNavigate()
+    const { signOutUser, user } = context || {}
+
+    // const navigate = useNavigate()
     //creamos una funcion para cerrar ecion
     const closeseccion = ()=>{
         try {
             if(signOutUser){
                 signOutUser()
             }
-            navigate('/')
+            // navigate('/')
         } catch (error) {
             if(error instanceof Error) {
                 console.log(error.message)
             }
         }
     }
+
+    if(!user) return <Navigate to='/'/>
+    
   return (
     <div>UserInfo
         signOut
