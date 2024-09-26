@@ -4,33 +4,34 @@ import { UserContext } from "../../context/UserContext";
 import { Navigate } from "react-router-dom";
 import { createClient } from "@supabase/supabase-js";
 import { UserFlotilla } from "../../interfaces/globalTypes";
+import CardUser from "./CardUser";
 
 //creamos el acceso a la base de datos de usuer para mostrar informacion
 const supabase = createClient(
-    import.meta.env.VITE_APP_URL || "",
-    import.meta.env.VITE_APP_KEY || ""
-  );
+  import.meta.env.VITE_APP_URL || "",
+  import.meta.env.VITE_APP_KEY || ""
+);
 
 const UserInfo = () => {
   //creamos un estdo para almacenar los datos obenidos
-  const [dataUser, setDataUser] = useState<UserFlotilla[]>([])
+  const [dataUser, setDataUser] = useState<UserFlotilla[]>([]);
   //creamos un useEffect ara manejar la peticion de get para obtener los datos
-  useEffect(()=>{
-    const getUser = async ()=>{
-      const { data, error } = await supabase.from('users').select('*');
-      if(data){
+  useEffect(() => {
+    const getUser = async () => {
+      const { data, error } = await supabase.from("users").select("*");
+      if (data) {
         setDataUser(data);
-        console.log(`mostrando los datos de user: ${data}`)
-      }else{
+        console.log(`mostrando los datos de user: ${data}`);
+      } else {
         setDataUser([]);
       }
-      if(error){
-        console.log(error.message)
+      if (error) {
+        console.log(error.message);
       }
-    }
+    };
 
     getUser();
-  },[])
+  }, []);
   //creamos la navegacion a inicio o login
   const context = useContext(UserContext);
 
@@ -45,7 +46,7 @@ const UserInfo = () => {
       if (signOutUser) {
         signOutUser();
       }
-    //   navigate('/')
+      //   navigate('/')
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message);
@@ -54,20 +55,15 @@ const UserInfo = () => {
   };
 
   console.log(user);
-  if(!user) return <Navigate to='/'/>
+  if (!user) return <Navigate to="/" />;
 
   return (
     <div>
-    {
-      dataUser && dataUser.map(item => (
-        <div key={item.id_users}>
-          <p>{item.name}</p>
-        </div>
-      ))
-    }
-     <Button variant="contained" color="primary" onClick={closeseccion}>
-          LogOut
-        </Button>
+      <Button variant="contained" color="primary" onClick={closeseccion}>
+        LogOut
+      </Button>
+
+      <CardUser dataUser={dataUser}/>
     </div>
   );
 };
