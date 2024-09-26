@@ -2,6 +2,8 @@ import { createClient, User } from "@supabase/supabase-js";
 import { StateChildren } from "../interfaces/globalTypes";
 import { UserContext } from "./UserContext";
 import { useEffect, useState } from "react";
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 //se movio fuera del componente para evitar multiples resderizados
 const supabase = createClient(
@@ -25,15 +27,15 @@ const StateContext = ({ children }: StateChildren) => {
         },
       });
       if (error) {
-        console.log(error.message);
+        toast.error(error.message);
       } else if (data.user) {
-        // setUser(data.user);
+        setUser(data.user);
         console.log("Usuario registrado:", data.user);
       }
       console.log(user);
     } catch (error) {
       if (error instanceof Error) {
-        console.log(error.message);
+        toast.error(error.message);
       }
     }
   };
@@ -46,14 +48,15 @@ const StateContext = ({ children }: StateChildren) => {
         })
 
         if(error){
-            console.log(error.message);
+            toast.error(error.message);
         }else if (data.user){
+            setUser(data.user)
             console.log(data.session)
             console.log(data.session.access_token)
         }
     } catch (error) {
         if(error instanceof Error) {
-            console.log(error.message);
+            toast.error(error.message);
         }
     }
   }
@@ -62,11 +65,13 @@ const StateContext = ({ children }: StateChildren) => {
     try {
         const { error } = await supabase.auth.signOut()
         if(error) {
-            console.log(error.message);
+            toast.error(error.message);
+        }else{
+            setUser(null)
         }
     } catch (error) {
         if(error instanceof Error) {
-            console.log(error.message);
+            toast.error(error.message);
         }
     }
   }
@@ -74,9 +79,15 @@ const StateContext = ({ children }: StateChildren) => {
   //creamos un escucha para ver si el usuario es autenticado o no ya que define el acceso o no a la pagina
   useEffect(()=>{
     const { data: authListener } = supabase.auth.onAuthStateChange((event, session)=>{ 
-        setUser(session?.user ?? null)
-        console.log("Auth event:", event);
-        console.log("User:", session?.user ?? null);
+        try {
+            console.log("Auth event:", event);
+            console.log("User:", session?.user ?? null);
+            setUser(session?.user ?? null)
+        } catch (error) {
+            if(error instanceof Error) {
+                toast.error(error.message);
+            }
+        }
     })
 
     return ()=> {
@@ -84,16 +95,18 @@ const StateContext = ({ children }: StateChildren) => {
     }
   },[])
 
+
   return (
     <UserContext.Provider
       value={{
         signUpUser,
         user,
         sigIn,
-        signOutUser
+        signOutUser,
       }}
     >
       {children}
+      <ToastContainer/>
     </UserContext.Provider>
   );
 };

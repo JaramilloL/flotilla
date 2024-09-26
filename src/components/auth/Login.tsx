@@ -1,7 +1,7 @@
 import { Box, Button, TextField } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Auth } from "../../interfaces/globalTypes";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 
@@ -13,7 +13,7 @@ const Login = () => {
     throw new Error("Usuario no logeado correctamente");
   }
 
-  const { sigIn } = context || {};
+  const { sigIn, user } = context || {};
 
   //usamos la navegacion para la reedireccion
   const navigate = useNavigate()
@@ -27,11 +27,10 @@ const Login = () => {
   } = useForm<Auth>(); //le pasamos los parametros a esperar
 
   //creamos la funcion de envio de datos del usuario
-  const onSubmit: SubmitHandler<Auth> = (data) => {
+  const onSubmit: SubmitHandler<Auth> = async(data) => {
     try {
       console.log(data);
-      sigIn(data.email, data.password)
-      navigate('/users')
+      await sigIn(data.email, data.password)
       reset();
     } catch (error) {
       if (error instanceof Error) {
@@ -39,6 +38,12 @@ const Login = () => {
       }
     }
   };
+
+  useEffect(()=>{
+    if(user){
+      navigate('/users')
+    }
+  },[user, navigate])
   return (
     <Box
       component="form"
