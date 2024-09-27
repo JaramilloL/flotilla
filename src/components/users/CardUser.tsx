@@ -1,4 +1,5 @@
 import {
+    Box,
   Button,
   Card,
   CardActions,
@@ -16,24 +17,26 @@ const CardUser = ({ dataUser }: DataUser) => {
     <div>
       {dataUser &&
         dataUser.map((item) => (
-          <Card sx={{ maxWidth: 345 }} key={item.id_users}>
+          <Card sx={{ maxWidth: 300 }} key={item.id_users}>
             <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
+              <Typography gutterBottom variant="h5" component="div" textAlign='center'>
                 {item.name}
               </Typography>
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                {item.email}
+                <strong>Email: </strong>{item.email}
               </Typography>
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                {item.phone_number}
+                <strong>Phoen_Number: </strong>{item.phone_number}
               </Typography>
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                {item.role}
+                <strong>Role: </strong>{item.role}
               </Typography>
             </CardContent>
             <CardActions>
+              <Box display='flex' justifyContent='space-evenly' width='100%'>
               <Button size="small">Share</Button>
               <Button size="small">Learn More</Button>
+              </Box>
             </CardActions>
           </Card>
         ))}
