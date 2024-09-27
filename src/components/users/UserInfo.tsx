@@ -5,6 +5,8 @@ import { Link, Navigate } from "react-router-dom";
 import { createClient } from "@supabase/supabase-js";
 import { UserFlotilla } from "../../interfaces/globalTypes";
 import CardUser from "./CardUser";
+import { Box } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 
 //creamos el acceso a la base de datos de usuer para mostrar informacion
 const supabase = createClient(
@@ -13,20 +15,31 @@ const supabase = createClient(
 );
 
 const UserInfo = () => {
+  //creamos otro estado para la carga de datos
+  const [loadingData, setLoadingData] = useState<boolean>(false);
   //creamos un estdo para almacenar los datos obenidos
   const [dataUser, setDataUser] = useState<UserFlotilla[]>([]);
   //creamos un useEffect ara manejar la peticion de get para obtener los datos
   useEffect(() => {
     const getUser = async () => {
-      const { data, error } = await supabase.from("users").select("*");
-      if (data) {
-        setDataUser(data);
-        console.log(`mostrando los datos de user: ${data}`);
-      } else {
-        setDataUser([]);
-      }
-      if (error) {
-        console.log(error.message);
+      setLoadingData(true);
+      try {
+        const { data, error } = await supabase.from("users").select("*");
+        if (data) {
+          setDataUser(data);
+          console.log(`mostrando los datos de user: ${data}`);
+        } else {
+          setDataUser([]);
+        }
+        if (error) {
+          console.log(error.message);
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          console.log(error.message);
+        }
+      } finally {
+        setLoadingData(false);
       }
     };
 
@@ -56,6 +69,12 @@ const UserInfo = () => {
 
   console.log(user);
   if (!user) return <Navigate to="/" />;
+  if (loadingData)
+    return (
+      <Box sx={{ display: "flex" }}>
+        <CircularProgress />
+      </Box>
+    );
 
   return (
     <div>

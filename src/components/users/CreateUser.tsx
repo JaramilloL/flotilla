@@ -5,6 +5,7 @@ import { createClient } from "@supabase/supabase-js";
 import ShortUniqueId from 'short-unique-id';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import { useState } from "react";
 
 //en este componente vamos a crear el formulario para agregar usuarios mediante insert
 const supabase = createClient(
@@ -12,6 +13,9 @@ const supabase = createClient(
     import.meta.env.VITE_APP_KEY || ""
   );
 const CreateUser = () => {
+    //creamos un estdo para que el boton de envio sea disable para el usuario mientras envia datos
+    const [chargerData, setChargerData] = useState<boolean>(false)
+
     const uid = new ShortUniqueId({ length: 10, dictionary: 'number' });
     const id =  uid.randomUUID();
 
@@ -24,6 +28,7 @@ const CreateUser = () => {
   } = useForm<UserFlotilla>();
 
   const onSubmit: SubmitHandler<UserFlotilla> = async(dataInfo): Promise<void> => {
+    setChargerData(true)
     try {
         //creamos la insercion de datos en supabase
         const { data, error } = await supabase.from("users").insert([
@@ -49,6 +54,8 @@ const CreateUser = () => {
       if (error instanceof Error) {
         toast.error(error.message);
       }
+    } finally{
+        setChargerData(false)
     }
   };
   return (
@@ -144,8 +151,8 @@ const CreateUser = () => {
       />
 
       <Box display="flex" justifyContent="center" width="100%">
-        <Button variant="contained" color="secondary" type="submit">
-          Add User
+        <Button variant="contained" color="secondary" type="submit" disabled={chargerData}>
+          { chargerData ? 'Loading...': 'Add User' }
         </Button>
       </Box>
       <ToastContainer/>
