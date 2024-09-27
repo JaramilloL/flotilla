@@ -1,7 +1,7 @@
 import Button from "@mui/material/Button";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContext";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { createClient } from "@supabase/supabase-js";
 import { UserFlotilla } from "../../interfaces/globalTypes";
 import CardUser from "./CardUser";
@@ -62,8 +62,13 @@ const UserInfo = () => {
       <Button variant="contained" color="primary" onClick={closeseccion}>
         LogOut
       </Button>
+      <Button variant="contained" color="secondary">
+        <Link to="/formUser" style={{ textDecoration: "none", color: "white" }}>
+          Form
+        </Link>
+      </Button>
 
-      <CardUser dataUser={dataUser}/>
+      <CardUser dataUser={dataUser} />
     </div>
   );
 };

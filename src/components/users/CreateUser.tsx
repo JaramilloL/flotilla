@@ -3,6 +3,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { UserFlotilla } from "../../interfaces/globalTypes";
 import { createClient } from "@supabase/supabase-js";
 import ShortUniqueId from 'short-unique-id';
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 //en este componente vamos a crear el formulario para agregar usuarios mediante insert
 const supabase = createClient(
@@ -34,16 +36,18 @@ const CreateUser = () => {
                 id_users: id
             }
         ])
-        if(error) {
+        if(error?.code === '23505') {
+            toast.error('one value was duplicated')
             console.log(error.message)
         }else{
             console.log(data)
+            toast.success('user created')
         }
       console.log(dataInfo);
       reset();
     } catch (error) {
       if (error instanceof Error) {
-        console.log(error.message);
+        toast.error(error.message);
       }
     }
   };
@@ -144,6 +148,7 @@ const CreateUser = () => {
           Add User
         </Button>
       </Box>
+      <ToastContainer/>
     </Box>
   );
 };
