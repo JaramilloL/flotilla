@@ -8,7 +8,7 @@ export interface Auth{
 }
 
 export interface UserFlotilla{
-    id_users: string;
+    id_users: number;
     name: string;
     email: string;
     password: string;
