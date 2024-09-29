@@ -1,22 +1,24 @@
 import { Box, Button, TextField } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Auth } from "../../interfaces/globalTypes";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  //creamos un estado para evaluar el inicio de secion seguro
+  const [loading, setLoading] = useState<boolean>(false)
   //usamos el contexto de la app para iniciar secion
-  const context = useContext(UserContext)
+  const context = useContext(UserContext);
 
-  if(!context){
+  if (!context) {
     throw new Error("Usuario no logeado correctamente");
   }
 
   const { sigIn, user } = context || {};
 
   //usamos la navegacion para la reedireccion
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   //usaremos la libreria de react-hook-form para registrar los datos del usuario
   const {
@@ -27,23 +29,26 @@ const Login = () => {
   } = useForm<Auth>(); //le pasamos los parametros a esperar
 
   //creamos la funcion de envio de datos del usuario
-  const onSubmit: SubmitHandler<Auth> = async(data) => {
+  const onSubmit: SubmitHandler<Auth> = async (data) => {
+    setLoading(true);
     try {
       console.log(data);
-      await sigIn(data.email, data.password)
+      await sigIn(data.email, data.password);
       reset();
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message);
       }
+    }finally{
+      setLoading(false)
     }
   };
 
-  useEffect(()=>{
-    if(user){
-      navigate('/users')
+  useEffect(() => {
+    if (user) {
+      navigate("/users");
     }
-  },[user, navigate])
+  }, [user, navigate]);
   return (
     <Box
       component="form"
@@ -83,10 +88,20 @@ const Login = () => {
         })}
       />
 
-      <Box display="flex" justifyContent="center">
-        <Button variant="contained" color="secondary" type="submit">
-          Login
+      <Box display="flex" justifyContent="space-between">
+        <Button variant="contained" color="secondary" type="submit" disabled={loading}>
+          { loading ? "Loading..." : "Login" }
         </Button>
+        <Link
+          to="/register"
+          style={{
+            textDecoration: "none",
+            color: "darkorange",
+            fontSize: "20px",
+          }}
+        >
+          Register
+        </Link>
       </Box>
     </Box>
   );
