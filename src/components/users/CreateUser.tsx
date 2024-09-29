@@ -2,22 +2,23 @@ import { Box, TextField, Button } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { UserFlotilla } from "../../interfaces/globalTypes";
 import { createClient } from "@supabase/supabase-js";
-import ShortUniqueId from 'short-unique-id';
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css';
+import ShortUniqueId from "short-unique-id";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 //en este componente vamos a crear el formulario para agregar usuarios mediante insert
 const supabase = createClient(
-    import.meta.env.VITE_APP_URL || "",
-    import.meta.env.VITE_APP_KEY || ""
-  );
+  import.meta.env.VITE_APP_URL || "",
+  import.meta.env.VITE_APP_KEY || ""
+);
 const CreateUser = () => {
-    //creamos un estdo para que el boton de envio sea disable para el usuario mientras envia datos
-    const [chargerData, setChargerData] = useState<boolean>(false)
+  //creamos un estdo para que el boton de envio sea disable para el usuario mientras envia datos
+  const [chargerData, setChargerData] = useState<boolean>(false);
 
-    const uid = new ShortUniqueId({ length: 10, dictionary: 'number' });
-    const id =  uid.randomUUID();
+  const uid = new ShortUniqueId({ length: 10, dictionary: "number" });
+  const id = uid.randomUUID();
 
   //usamos react-hook-form para el registro de datos y el envio
   const {
@@ -27,35 +28,37 @@ const CreateUser = () => {
     formState: { errors },
   } = useForm<UserFlotilla>();
 
-  const onSubmit: SubmitHandler<UserFlotilla> = async(dataInfo): Promise<void> => {
-    setChargerData(true)
+  const onSubmit: SubmitHandler<UserFlotilla> = async (
+    dataInfo
+  ): Promise<void> => {
+    setChargerData(true);
     try {
-        //creamos la insercion de datos en supabase
-        const { data, error } = await supabase.from("users").insert([
-            { 
-                name: dataInfo.name,
-                email: dataInfo.email,
-                password: dataInfo.password,
-                phone_number: dataInfo.phone_number,
-                role: dataInfo.role,
-                id_users: id
-            }
-        ])
-        if(error?.code === '23505') {
-            toast.error('one value was duplicated')
-            console.log(error.message)
-        }else{
-            console.log(data)
-            toast.success('user created')
-        }
+      //creamos la insercion de datos en supabase
+      const { data, error } = await supabase.from("users").insert([
+        {
+          name: dataInfo.name,
+          email: dataInfo.email,
+          password: dataInfo.password,
+          phone_number: dataInfo.phone_number,
+          role: dataInfo.role,
+          id_users: id,
+        },
+      ]);
+      if (error?.code === "23505") {
+        toast.error("one value was duplicated");
+        console.log(error.message);
+      } else {
+        console.log(data);
+        toast.success("user created");
+      }
       console.log(dataInfo);
       reset();
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
       }
-    } finally{
-        setChargerData(false)
+    } finally {
+      setChargerData(false);
     }
   };
   return (
@@ -65,6 +68,14 @@ const CreateUser = () => {
       width="70%"
       onSubmit={handleSubmit(onSubmit)}
     >
+      <Button variant="outlined" color="secondary">
+        <Link
+          to="/users"
+          style={{ textDecoration: "none", color: "darkorange" }}
+        >
+          List
+        </Link>
+      </Button>
       <TextField
         id="name"
         label="name"
@@ -151,11 +162,16 @@ const CreateUser = () => {
       />
 
       <Box display="flex" justifyContent="center" width="100%">
-        <Button variant="contained" color="secondary" type="submit" disabled={chargerData}>
-          { chargerData ? 'Loading...': 'Add User' }
+        <Button
+          variant="contained"
+          color="secondary"
+          type="submit"
+          disabled={chargerData}
+        >
+          {chargerData ? "Loading..." : "Add User"}
         </Button>
       </Box>
-      <ToastContainer/>
+      <ToastContainer />
     </Box>
   );
 };

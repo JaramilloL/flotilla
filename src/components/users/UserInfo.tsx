@@ -71,21 +71,26 @@ const UserInfo = () => {
   if (!user) return <Navigate to="/" />;
   if (loadingData)
     return (
-      <Box sx={{ display: "flex" }}>
-        <CircularProgress />
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <CircularProgress color="secondary" size="50px" />
       </Box>
     );
 
   return (
     <div>
-      <Button variant="contained" color="primary" onClick={closeseccion}>
-        LogOut
-      </Button>
-      <Button variant="contained" color="secondary">
-        <Link to="/formUser" style={{ textDecoration: "none", color: "white" }}>
-          Form
-        </Link>
-      </Button>
+      <Box width="100%" display="flex" justifyContent="space-evenly">
+        <Button variant="contained" color="primary" onClick={closeseccion}>
+          LogOut
+        </Button>
+        <Button variant="contained" color="secondary">
+          <Link
+            to="/formUser"
+            style={{ textDecoration: "none", color: "white" }}
+          >
+            Form
+          </Link>
+        </Button>
+      </Box>
 
       <CardUser dataUser={dataUser} />
     </div>
