@@ -1,6 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Vehicles } from "../../interfaces/globalTypes";
+import TableVehicles from "./TableVehicles";
+import { UserContext } from "../../context/UserContext";
+import { Navigate } from "react-router-dom";
 
 //creamos el acceso a la base de datos de usuer para mostrar informacion
 const supabase = createClient(
@@ -9,6 +12,13 @@ const supabase = createClient(
   );
   
 const VehiclesInfo = () => {
+    //tramos el contexto de la aplicacion para verificar el acceso a la pagina
+    const context = useContext(UserContext)
+
+    if(!context) {
+        throw new Error("no context")
+    }
+    const { user } = context || {};
     //creamos un estdo para almacenar la informacion de los vehiculos
     const [dataVehicle, setDataVehicle] = useState<Vehicles[]>([])
 
@@ -34,15 +44,11 @@ const VehiclesInfo = () => {
         getVehicles();
     },[])
 
+    if(!user) return <Navigate to='/'/>
+
   return (
     <div>
-        {
-            dataVehicle && dataVehicle.map(item => (
-                <div key={item.id_vehicle}>
-                    <p>{item.model}</p>
-                </div>
-            ))
-        }
+        <TableVehicles dataVehicle={ dataVehicle } />
     </div>
   )
 }

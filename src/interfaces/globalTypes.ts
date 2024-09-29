@@ -45,8 +45,8 @@ export interface Vehicles{
     model: string;
     brand: string;
     type: string;
-    capcity: number;
-    state: string;
+    capacity: number;
+    status: string;
     mileage: number;
 }
 
