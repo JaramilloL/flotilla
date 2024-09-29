@@ -40,7 +40,7 @@ export interface Trips{
 }
 
 export interface Vehicles{
-    id_vehicle: string;
+    id_vehicle: number;
     plate_number: string;
     model: string;
     brand: string;
