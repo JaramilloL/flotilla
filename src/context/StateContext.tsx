@@ -15,6 +15,7 @@ const StateContext = ({ children }: StateChildren) => {
 
   //creamos un estao para almacenar el login
   const [user, setUser] = useState<User | null>(null);
+  const [loadingAuth, setLoadingAuth] = useState<boolean>(true);
 
   //creamos la duncion para registrar usuarios mediante email y password
   const signUpUser = async (email: string, password: string): Promise<void> => {
@@ -87,6 +88,8 @@ const StateContext = ({ children }: StateChildren) => {
             if(error instanceof Error) {
                 toast.error(error.message);
             }
+        }finally{
+          setLoadingAuth(false);
         }
     })
 
@@ -103,6 +106,7 @@ const StateContext = ({ children }: StateChildren) => {
         user,
         sigIn,
         signOutUser,
+        loadingAuth,
       }}
     >
       {children}

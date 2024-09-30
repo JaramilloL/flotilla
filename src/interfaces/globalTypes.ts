@@ -74,4 +74,5 @@ export interface StateUser{
     user: User | null; 
     sigIn: (email: string, password: string) => Promise<void>;
     signOutUser: (()=> Promise<void> | undefined);
+    loadingAuth: boolean;
 }

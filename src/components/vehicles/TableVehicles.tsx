@@ -12,9 +12,11 @@ import { Vehicles } from "../../interfaces/globalTypes";
 
 interface vehiclesInfo {
   dataVehicle: Vehicles[] | undefined;
+  loading: boolean;
 }
 
-const TableVehicles = ({ dataVehicle }: vehiclesInfo) => {
+const TableVehicles = ({ dataVehicle, loading }: vehiclesInfo) => {
+    if(loading) return <h1>Loading...</h1>
   return (
     <Box
       component="div"
