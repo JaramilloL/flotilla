@@ -5,7 +5,7 @@ import { Vehicles } from "../../interfaces/globalTypes";
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { createClient } from "@supabase/supabase-js";
 import ShortUniqueId from "short-unique-id";
 import { ToastContainer, toast } from "react-toastify";
@@ -49,7 +49,7 @@ const CreateVehicles = () => {
         toast.error(`Error al insertar vehículo: ${error.message}`);
       } else {
         toast.success("Vehículo insertado con éxito");
-        console.log(data)
+        console.log(data);
       }
       console.log(dataV);
       reset();
@@ -81,6 +81,16 @@ const CreateVehicles = () => {
       width="70%"
       onSubmit={handleSubmit(onSubmit)}
     >
+      <Box display="block">
+        <Button variant="contained" color="secondary">
+          <Link
+            to="/vehicles"
+            style={{ textDecoration: "none", color: "white" }}
+          >
+            Table
+          </Link>
+        </Button>
+      </Box>
       <TextField
         id="model"
         label="model"
@@ -198,7 +208,7 @@ const CreateVehicles = () => {
           Create Vehicle
         </Button>
       </Box>
-      <ToastContainer/>
+      <ToastContainer />
     </Box>
   );
 };
