@@ -7,6 +7,7 @@ import { Navigate } from "react-router-dom";
 import { Box } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 
+
 //creamos el acceso a la base de datos de usuer para mostrar informacion
 const supabase = createClient(
     import.meta.env.VITE_APP_URL || "",

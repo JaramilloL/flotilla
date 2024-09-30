@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { Vehicles } from "../../interfaces/globalTypes";
+import CircularProgress from "@mui/material/CircularProgress";
 
 interface vehiclesInfo {
   dataVehicle: Vehicles[] | undefined;
@@ -16,7 +17,9 @@ interface vehiclesInfo {
 }
 
 const TableVehicles = ({ dataVehicle, loading }: vehiclesInfo) => {
-    if(loading) return <h1>Loading...</h1>
+    if(loading) return ( <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <CircularProgress color="secondary" size="50px" />
+      </Box> )
   return (
     <Box
       component="div"

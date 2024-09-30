@@ -5,6 +5,7 @@ import RegisterPage from "../pages/auth/RegisterPage";
 import UserPage from "../pages/users/UserPage";
 import FormPage from "../pages/users/FormPage";
 import VehiclesPage from "../pages/vehicles/VehiclesPage";
+import FormVehicle from "../pages/vehicles/FormVehicle";
 
 export const router = createBrowserRouter([
     { 
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
             { 
                 path: '/vehicles',
                 element: <VehiclesPage/>
+            },
+            {
+                path: '/formVehicle',
+                element: <FormVehicle/>
             }
         ]
     },
