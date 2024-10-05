@@ -16,9 +16,11 @@ const supabase = createClient(
     import.meta.env.VITE_APP_KEY || ""
   );
 
-  interface Id_Info {
-    id_users?: string;
-    id_vehicle?: string;
+  interface Id_user {
+    id_users: number;
+  }
+  interface Id_vehicle{
+    id_vehicle: number;
   }
 
 const CreateDriver = () => {
@@ -29,8 +31,8 @@ const CreateDriver = () => {
     const [loadingCharge, setLoadingCharge] = useState<boolean>(false)
 
     //vamos a crear dos estado para añmacenar la información sobre el user y el vehicle
-    const [dataUser, setDataUser] = useState<Id_Info[]>([])
-    const [dataVehicle, setdataVehicle] = useState<Id_Info[]>([])
+    const [dataUser, setDataUser] = useState<Id_user[]>([])
+    const [dataVehicle, setdataVehicle] = useState<Id_vehicle[]>([])
 
     useEffect(()=>{
         (async()=>{
