@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { Drivers } from "../../interfaces/globalTypes";
 import CircularProgress from "@mui/material/CircularProgress";
+import { Link } from "react-router-dom";
 
 interface tableInfo {
   dataDrivers: Drivers[] | undefined;
@@ -28,7 +29,7 @@ const DriverTable = ({ dataDrivers, loadingData }: tableInfo) => {
     <Box>
       <Box>
         <Button variant="contained" color="secondary">
-          Form
+          <Link to="/driverForm" style={{ textDecoration: 'none', color: "white"}}>Form</Link>
         </Button>
       </Box>
       <Box
@@ -78,6 +79,7 @@ const DriverTable = ({ dataDrivers, loadingData }: tableInfo) => {
                         variant="contained"
                         color="info"
                         size="small"
+                        sx={{ml: 1}}
                         // onClick={() => handleEditClick(item)}
                       >
                         Update
