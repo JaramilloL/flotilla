@@ -16,9 +16,10 @@ import { Link } from "react-router-dom";
 interface tableInfo {
   dataDrivers: Drivers[] | undefined;
   loadingData: boolean;
+  deleteDriver: (data: number) => void;
 }
 
-const DriverTable = ({ dataDrivers, loadingData }: tableInfo) => {
+const DriverTable = ({ dataDrivers, loadingData, deleteDriver }: tableInfo) => {
   if (loadingData)
     return (
       <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -70,7 +71,7 @@ const DriverTable = ({ dataDrivers, loadingData }: tableInfo) => {
                         variant="contained"
                         color="error"
                         size="small"
-                        // onClick={() => deleteVehicle(item.id_vehicle)}
+                        onClick={() => deleteDriver(item.id_drivers)}
                         // disabled={loadinDelete}
                       >
                         Delete

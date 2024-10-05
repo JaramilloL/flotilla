@@ -40,6 +40,24 @@ const DriverInfo = () => {
         })()
     },[])
 
+    const deleteDriver = async(id_drivers: number): Promise<void> =>{
+        try {
+            const { error } = await supabase.from('drivers').delete().eq('id_drivers', id_drivers)
+
+            if(error){
+                console.log(error.message)
+            }else{
+                console.log('data')
+                setDataDrivers((prev)=> prev?.filter(driver=> driver.id_drivers !== id_drivers))
+            }
+
+        } catch (error) {
+            if(error instanceof Error) {
+                console.log(error.message)
+            }
+        }
+    }
+
     //vamos a evaluar el contexto de la app para realizar la vista
     const context = useContext(UserContext)
 
@@ -54,7 +72,7 @@ const DriverInfo = () => {
     if(!user) return <Navigate to="/" />
   return (
     <div>
-        <DriverTable dataDrivers={dataDrivers} loadingData={ loadinData }/>
+        <DriverTable dataDrivers={dataDrivers} loadingData={ loadinData } deleteDriver={ deleteDriver }/>
     </div>
   )
 }
