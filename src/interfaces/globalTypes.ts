@@ -16,13 +16,13 @@ export interface UserFlotilla{
     phone_number: number;
 }
 
-export interface Divers{
-    id_drivers: string;
-    user_id: string;
-    licence_number: number;
+export interface Drivers{
+    id_drivers: number;
+    user_id: number;
+    license_number: string;
     license_type: string;
-    experience_year: number;
-    vehicle_id: string;
+    experience_years: number;
+    vehicle_id: number;
 }
 
 export interface Trips{

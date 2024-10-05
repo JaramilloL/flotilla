@@ -5,8 +5,9 @@ import { createClient } from "@supabase/supabase-js";
 import ShortUniqueId from "short-unique-id";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, Navigate } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
 
 //en este componente vamos a crear el formulario para agregar usuarios mediante insert
 const supabase = createClient(
@@ -61,6 +62,20 @@ const CreateUser = () => {
       setChargerData(false);
     }
   };
+
+  //vamos a evaluar el contexto de la app para realizar la vista
+  const context = useContext(UserContext)
+
+  if(!context){
+      throw new Error("no context")
+  }
+
+  const { loadingAuth, user } = context || {}
+
+  if(loadingAuth) return <h1>Loading.....</h1>
+
+  if(!user) return <Navigate to="/" />
+
   return (
     <Box
       component="form"
