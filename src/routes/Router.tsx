@@ -8,6 +8,7 @@ import VehiclesPage from "../pages/vehicles/VehiclesPage";
 import FormVehicle from "../pages/vehicles/FormVehicle";
 import DriversPage from "../pages/drivers/DriversPage";
 import DriverForm from "../pages/drivers/DriverForm";
+import MaintenancePage from "../pages/Maintenance/MaintenancePage";
 
 export const router = createBrowserRouter([
     { 
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
             { 
                 path: '/driverForm',
                 element: <DriverForm/>
+            },
+            { 
+                path: '/maintenance',
+                element: <MaintenancePage/>
             }
         ]
     },

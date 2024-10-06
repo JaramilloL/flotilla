@@ -57,8 +57,8 @@ export interface Transport{
 }
 
 export interface Maintenance{
-    id_maintenance: string;
-    vehicle_id: string;
+    id_maintenance: number;
+    vehicle_id: number;
     maintenance_type: string;
     date: string;
     cost: number;
