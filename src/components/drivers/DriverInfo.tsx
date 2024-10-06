@@ -16,6 +16,7 @@ const DriverInfo = () => {
     //creamos un estado para almacenar los datos
     const [dataDrivers, setDataDrivers] = useState<Drivers[]>([])
     const [loadinData, setLoadinData] = useState<boolean>(false)
+
     useEffect(() =>{
         (async()=>{
             try {

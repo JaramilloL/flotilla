@@ -76,15 +76,7 @@ const DriverTable = ({ dataDrivers, loadingData, deleteDriver }: tableInfo) => {
                       >
                         Delete
                       </Button>
-                      <Button
-                        variant="contained"
-                        color="info"
-                        size="small"
-                        sx={{ml: 1}}
-                        // onClick={() => handleEditClick(item)}
-                      >
-                        Update
-                      </Button>
+                      
                     </TableCell>
                   </TableRow>
                 ))}
