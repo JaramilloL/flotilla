@@ -1,13 +1,40 @@
-import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { Maintenance } from "../../interfaces/globalTypes"
+import {
+  Box,
+  Button,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import { Maintenance } from "../../interfaces/globalTypes";
+import CircularProgress from "@mui/material/CircularProgress";
+import { Link } from "react-router-dom";
 
 interface maintenanceInfo {
-    dataMaintenance: Maintenance[] | undefined;
+  dataMaintenance: Maintenance[] | undefined;
+  loadingData: boolean;
 }
-const MaintenanceTable = ({ dataMaintenance }: maintenanceInfo) => {
+const MaintenanceTable = ({
+  dataMaintenance,
+  loadingData,
+}: maintenanceInfo) => {
+  if (loadingData)
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <CircularProgress color="secondary" size="50px" />
+      </Box>
+    );
   return (
     <Box>
-        <Box
+        <Box>
+        <Button variant="contained" color="secondary">
+          <Link to="/maintenanceForm" style={{ textDecoration: 'none', color: "white"}}>Form</Link>
+        </Button>
+      </Box>
+      <Box
         component="div"
         width="95%"
         display="flex"
@@ -52,7 +79,6 @@ const MaintenanceTable = ({ dataMaintenance }: maintenanceInfo) => {
                       >
                         Delete
                       </Button>
-                      
                     </TableCell>
                   </TableRow>
                 ))}
@@ -61,7 +87,7 @@ const MaintenanceTable = ({ dataMaintenance }: maintenanceInfo) => {
         </TableContainer>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default MaintenanceTable
+export default MaintenanceTable;

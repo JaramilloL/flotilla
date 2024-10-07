@@ -9,6 +9,7 @@ import FormVehicle from "../pages/vehicles/FormVehicle";
 import DriversPage from "../pages/drivers/DriversPage";
 import DriverForm from "../pages/drivers/DriverForm";
 import MaintenancePage from "../pages/Maintenance/MaintenancePage";
+import MaintenanceFormPage from "../pages/Maintenance/MaintenanceFormPage";
 
 export const router = createBrowserRouter([
     { 
@@ -50,6 +51,10 @@ export const router = createBrowserRouter([
             { 
                 path: '/maintenance',
                 element: <MaintenancePage/>
+            },
+            { 
+                path: '/maintenanceForm',
+                element: <MaintenanceFormPage/>
             }
         ]
     },
