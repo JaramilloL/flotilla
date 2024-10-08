@@ -16,11 +16,19 @@ import { Link } from "react-router-dom";
 interface maintenanceInfo {
   dataMaintenance: Maintenance[] | undefined;
   loadingData: boolean;
+  deleteMaintenance: (value: number) => void;
+  loadindDelete: boolean;
+
 }
+
 const MaintenanceTable = ({
   dataMaintenance,
   loadingData,
+  deleteMaintenance,
+  loadindDelete
 }: maintenanceInfo) => {
+
+
   if (loadingData)
     return (
       <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -74,8 +82,8 @@ const MaintenanceTable = ({
                         variant="contained"
                         color="error"
                         size="small"
-                        // onClick={() => deleteDriver(item.id_drivers)}
-                        // disabled={loadinDelete}
+                        onClick={() => deleteMaintenance(item.id_maintenance)}
+                        disabled={loadindDelete}
                       >
                         Delete
                       </Button>

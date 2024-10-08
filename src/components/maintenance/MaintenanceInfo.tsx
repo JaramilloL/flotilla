@@ -16,6 +16,7 @@ const supabase = createClient(
 const MaintenanceInfo = () => {
   //guardmos los datos resividos en un estado de react
   const [dataMaintenance, setDataMaintenance] = useState<Maintenance[]>([]);
+  const [loadindDelete, setLoadindDelete] = useState<boolean>(false)
   const [loadingData, setLoadingData] = useState<boolean>(false);
 
   //vamos a mostrar los datos de los manteniimientos
@@ -43,6 +44,27 @@ const MaintenanceInfo = () => {
     }
   }, []);
 
+  //funsiond de eliminar datos
+  const deleteMaintenance = async(id_maintenance: number) => {
+    try {
+      setLoadindDelete(true)
+      const { data, error } = await supabase.from('maintenance_records').delete().eq('id_maintenance', id_maintenance)
+
+      if(error){
+        console.log(error.message)
+      }else{
+        console.log('succeffull', data)
+        setDataMaintenance((prev)=> prev?.filter(deleteM=> deleteM.id_maintenance !== id_maintenance))
+      }
+    } catch (error) {
+      if(error instanceof Error) {
+        console.log(error.message);
+      }
+    }finally{
+      setLoadindDelete(false)
+    }
+  }
+
   const context = useContext(UserContext);
 
   if (!context) {
@@ -63,6 +85,8 @@ const MaintenanceInfo = () => {
       <MaintenanceTable
         dataMaintenance={dataMaintenance}
         loadingData={loadingData}
+        deleteMaintenance={ deleteMaintenance }
+        loadindDelete={loadindDelete}
       />
     </div>
   );
