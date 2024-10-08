@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { Maintenance } from "../../interfaces/globalTypes";
 import { createClient } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
+import ShortUniqueId from "short-unique-id";
 
 //en este componente vamos a crear el formulario para agregar usuarios mediante insert
 const supabase = createClient(
@@ -24,6 +25,9 @@ interface Id_vehicle {
 }
 
 const CreateMaintenence = () => {
+  //creacion del id
+  const uid = new ShortUniqueId({ length: 10, dictionary: "number" });
+  const id = uid.randomUUID();
   //extraemos de la tabla de vehiculos para elejir el vehiculo
   const [dataVehicle, setdataVehicle] = useState<Id_vehicle[]>([]);
 
@@ -35,8 +39,26 @@ const CreateMaintenence = () => {
     formState: { errors },
   } = useForm<Maintenance>();
 
-  const onSubmit: SubmitHandler<Maintenance> = (dataM) => {
+  const onSubmit: SubmitHandler<Maintenance> = async (dataM): Promise<void> => {
     try {
+      const { data, error } = await supabase
+        .from("maintenance_records")
+        .insert([
+          {
+            id_maintenance: id,
+            maintenance_type: dataM.maintenance_type,
+            date: dataM.date,
+            cost: dataM.cost,
+            notes: dataM.notes,
+            vehicle_id: dataM.vehicle_id,
+          },
+        ]);
+
+      if (error) {
+        console.log(error.message);
+      } else {
+        console.log("exito al crear", data);
+      }
       console.log(dataM);
       reset();
     } catch (error) {
