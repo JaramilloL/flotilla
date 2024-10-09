@@ -5,6 +5,7 @@ import TrasportList from "./TrasportList";
 import { Typography } from "@mui/material";
 import { UserContext } from "../../context/UserContext";
 import { Navigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify'
 
 
 //creamos el acceso a la base de datos de usuer para mostrar informacion
@@ -23,7 +24,7 @@ const TransportInfo = () => {
                 const { data, error } = await supabase.from('transport_types').select('*')
     
                 if(error) {
-                    console.log(error.message)
+                    toast.error(error.message)
                 }else{
                     console.log(data)
                     setDataTrasnports(data)
@@ -51,6 +52,7 @@ const TransportInfo = () => {
     <div>
         <Typography variant="h5" textAlign='center'>Types of Trasnports</Typography>
         <TrasportList dataTrasnports={ dataTrasnports } /> 
+        <ToastContainer/>
     </div>
   )
 }

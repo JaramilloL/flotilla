@@ -11,6 +11,7 @@ import DriverForm from "../pages/drivers/DriverForm";
 import MaintenancePage from "../pages/Maintenance/MaintenancePage";
 import MaintenanceFormPage from "../pages/Maintenance/MaintenanceFormPage";
 import TrasnportPage from "../pages/transport_types/TrasnportPage";
+import FormTransport from "../pages/transport_types/FormTransport";
 
 export const router = createBrowserRouter([
     { 
@@ -60,6 +61,10 @@ export const router = createBrowserRouter([
             { 
                 path: '/transport',
                 element: <TrasnportPage/>
+            },
+            { 
+                path: '/transportForm',
+                element: <FormTransport/>
             }
         ]
     },
