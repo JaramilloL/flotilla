@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Box,
   List,
   ListItem,
   ListItemAvatar,
@@ -14,23 +13,21 @@ interface dataInfo {
   dataTrasnports: Transport[] | undefined;
 }
 
-const TrasportList = ({ dataTrasnports }: dataInfo) => {
+const TrasportList = ({ dataTrasnports: ts }: dataInfo) => {
   return (
-    <Box>
-      {dataTrasnports &&
-        dataTrasnports.map((item) => (
-          <List
-            key={item.id_transport}
-            sx={{
-              width: "100%",
-              maxWidth: 360,
-              bgcolor: "background.paper",
-              border: 1,
-              borderColor: "orange",
-            }}
-          >
-            <ListItem>
-              <ListItemAvatar>
+      <List
+        sx={{
+          width: "100%",
+          maxWidth: 360,
+          bgcolor: "background.paper",
+          border: 1,
+          borderColor: "orange",
+        }}
+      >
+        {ts &&
+          ts.map((item) => (
+            <ListItem key={item.id_transport}>
+              <ListItemAvatar >
                 <Avatar sx={{ bgcolor: deepOrange[500] }}>
                   <ImageIcon />
                 </Avatar>
@@ -39,11 +36,10 @@ const TrasportList = ({ dataTrasnports }: dataInfo) => {
                 primary={`Name: ${item.name}`}
                 secondary={`Desc: ${item.description}`}
               />
-              <ListItemText primary={`Type: ${item.id_type}`} />
+              <ListItemText primary={`Type: ${item.id_type}`} key={item.id_type}/>
             </ListItem>
-          </List>
-        ))}
-    </Box>
+          ))}
+      </List>
   );
 };
 
