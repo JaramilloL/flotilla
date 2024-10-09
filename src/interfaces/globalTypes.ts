@@ -51,9 +51,10 @@ export interface Vehicles{
 }
 
 export interface Transport{
-    id_transport: string;
+    id_transport: number;
     name: string;
     description: string;
+    id_type: number;
 }
 
 export interface Maintenance{
