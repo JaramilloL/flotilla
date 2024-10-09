@@ -55,6 +55,7 @@ export interface Transport{
     name: string;
     description: string;
     id_type: number;
+    created_at: string;
 }
 
 export interface Maintenance{
