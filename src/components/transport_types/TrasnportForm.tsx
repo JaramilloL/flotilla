@@ -1,7 +1,15 @@
-import { Box, TextField, Button, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContext";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Transport } from "../../interfaces/globalTypes";
 import ShortUniqueId from "short-unique-id";
@@ -14,9 +22,8 @@ const supabase = createClient(
   import.meta.env.VITE_APP_KEY || ""
 );
 
-interface vehicle{
-  model: string;
-  id_vehicle?: number;
+interface vehicle {
+  id_vehicle: number;
 }
 
 const TrasnportForm = () => {
@@ -25,50 +32,57 @@ const TrasnportForm = () => {
   const id = uid.randomUUID();
 
   //creamos un estado para lamcenar los id de los vehiculos
-  const [dataVehicle, setDataVehicle] = useState<vehicle[]>([])
+  const [dataVehicle, setDataVehicle] = useState<vehicle[]>([]);
 
   //hacemos uso de react-hook-form para el envio de datos
-  const { handleSubmit, register, reset, formState: { errors } } = useForm<Transport>()
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors },
+  } = useForm<Transport>();
 
-  const onSubmit: SubmitHandler<Transport> = async(dataT): Promise<void> => {
+  const onSubmit: SubmitHandler<Transport> = async (dataT): Promise<void> => {
     try {
-      const { data, error } = await supabase.from('transport_types').insert([{ 
-        id_tranport: id,
-        name: dataT.name,
-        description: dataT.description,
-        id_type: dataT.id_type
-      }])
+      const { data, error } = await supabase.from("transport_types").insert([
+        {
+          id_tranport: id,
+          name: dataT.name,
+          description: dataT.description,
+          id_type: dataT.id_type,
+        },
+      ]);
 
-      if(error) {
-        toast.error(error.message)
-      }else(
-        console.log('exito', data)
-      )
+      if (error) {
+        toast.error(error.message);
+      } else console.log("exito", data);
       reset();
     } catch (error) {
-      if(error instanceof Error) {
-        console.log(error.message)
+      if (error instanceof Error) {
+        console.log(error.message);
       }
     }
-  }
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     try {
-      (async()=>{
-        const { data, error } = await supabase.from('vehicles').select('model,id_vehicle')
-  
-        if(error){
-          toast.error(error.message)
-        }else{
-          setDataVehicle(data)
+      (async () => {
+        const { data, error } = await supabase
+          .from("vehicles")
+          .select("model,id_vehicle");
+
+        if (error) {
+          toast.error(error.message);
+        } else {
+          setDataVehicle(data);
         }
-      })()
+      })();
     } catch (error) {
-      if(error instanceof Error){
-        console.log(error.message)
+      if (error instanceof Error) {
+        console.log(error.message);
       }
     }
-  },[])
+  }, []);
   //exytaemos el contexto para ver si esta autenticado
   const context = useContext(UserContext);
 
@@ -80,7 +94,22 @@ const TrasnportForm = () => {
   if (loadingAuth) return <h1>Loading...</h1>;
   if (!user) return <Navigate to="/" />;
   return (
-    <Box component="form" width="90%" m="0 auto" onSubmit={ handleSubmit(onSubmit) }>
+    <Box
+      component="form"
+      width="90%"
+      m="0 auto"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <Box>
+        <Button variant="contained" color="secondary" sx={{ m: 1 }}>
+          <Link
+            to="/transport"
+            style={{ textDecoration: "none", color: "white" }}
+          >
+            List
+          </Link>
+        </Button>
+      </Box>
       <TextField
         id="name"
         label="name"
@@ -88,16 +117,14 @@ const TrasnportForm = () => {
         autoComplete="off"
         type="text"
         fullWidth
-        error={ !!errors?.name }
-        helperText={ errors?.name?.message }
-        {
-          ...register('name', {
-            required: {
-              value: true,
-              message: 'Please enter a name'
-            }
-          })
-        }
+        error={!!errors?.name}
+        helperText={errors?.name?.message}
+        {...register("name", {
+          required: {
+            value: true,
+            message: "Please enter a name",
+          },
+        })}
       />
 
       <TextField
@@ -107,16 +134,14 @@ const TrasnportForm = () => {
         autoComplete="off"
         type="text"
         fullWidth
-        error={ !!errors?.description }
-        helperText={ errors?.description?.message }
-        {
-          ...register('description', {
-            required: {
-              value: true,
-              message: 'Please enter a description'
-            }
-          })
-        }
+        error={!!errors?.description}
+        helperText={errors?.description?.message}
+        {...register("description", {
+          required: {
+            value: true,
+            message: "Please enter a description",
+          },
+        })}
       />
       <FormControl fullWidth margin="normal">
         <InputLabel id="vehicle-label">Vehicle</InputLabel>
@@ -129,7 +154,7 @@ const TrasnportForm = () => {
         >
           {dataVehicle.map((vehicle) => (
             <MenuItem key={vehicle.id_vehicle} value={vehicle.id_vehicle}>
-              {vehicle.model}
+              {vehicle.id_vehicle}
             </MenuItem>
           ))}
         </Select>
