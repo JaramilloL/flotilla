@@ -6,7 +6,7 @@ import { Box, Typography } from "@mui/material";
 import { UserContext } from "../../context/UserContext";
 import { Navigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify'
-
+import CircularProgress from "@mui/material/CircularProgress";
 
 //creamos el acceso a la base de datos de usuer para mostrar informacion
 const supabase = createClient(
@@ -18,9 +18,11 @@ const TransportInfo = () => {
     const [dataTrasnports, setDataTrasnports] = useState<Transport[]>([])
     //creamos un estado para la eliminacion de datos
     const [loadingDelete, setLoadingDelete] = useState<boolean>(false)
+    const [loadingData, setLoadingData] = useState<boolean>(false)
     //vamos a traer la informacion existente de la labla
 
     useEffect(()=>{
+        setLoadingData(true)
         try {
             (async()=>{
                 const { data, error } = await supabase.from('transport_types').select('*')
@@ -36,6 +38,8 @@ const TransportInfo = () => {
             if(error instanceof Error) {
                 console.log(error.message)
             }
+        }finally{
+            setLoadingData(false)
         }
     },[])
 
@@ -68,12 +72,17 @@ const TransportInfo = () => {
 
     const { user, loadingAuth } = context || {};
 
-    if(loadingAuth) return <h1>Loading...</h1>
+    if(loadingAuth) return (
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <CircularProgress color="secondary" size="50px" />
+        </Box>
+      );
     if(!user) return <Navigate to='/'/>
+    
   return (
     <Box width='90%' m='0 auto'>
         <Typography variant="h5" textAlign='center'>Types of Trasnports</Typography>
-        <TrasportList dataTrasnports={ dataTrasnports } deleteTransport={deleteTransport} loadingDelete={loadingDelete} /> 
+        <TrasportList dataTrasnports={ dataTrasnports } deleteTransport={deleteTransport} loadingDelete={loadingDelete} loadingData={ loadingData } /> 
         <ToastContainer/>
     </Box>
   )
