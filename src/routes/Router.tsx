@@ -12,6 +12,7 @@ import MaintenancePage from "../pages/Maintenance/MaintenancePage";
 import MaintenanceFormPage from "../pages/Maintenance/MaintenanceFormPage";
 import TrasnportPage from "../pages/transport_types/TrasnportPage";
 import FormTransport from "../pages/transport_types/FormTransport";
+import TripsPage from "../pages/trips/TripsPage";
 
 export const router = createBrowserRouter([
     { 
@@ -65,6 +66,10 @@ export const router = createBrowserRouter([
             { 
                 path: '/transportForm',
                 element: <FormTransport/>
+            },
+            { 
+                path: '/trips',
+                element: <TripsPage/>
             }
         ]
     },

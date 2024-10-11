@@ -26,10 +26,10 @@ export interface Drivers{
 }
 
 export interface Trips{
-    id_trip: string;
-    vehicle_id: string;
-    driver_id: string;
-    transport_id: string;
+    id_trip: number;
+    vehicle_id: number;
+    driver_id: number;
+    transport_id: number;
     origin: string;
     destination: string;
     distance: number;
