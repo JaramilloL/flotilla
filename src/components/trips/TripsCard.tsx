@@ -6,6 +6,7 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
+  Grid2,
   IconButton,
   Typography,
 } from "@mui/material";
@@ -20,16 +21,28 @@ interface tripsInfo {
 
 const TripsCard = ({ dataTrips }: tripsInfo) => {
   const [open, setOpen] = useState<boolean>(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+
+  //creamos un estado y una funcion para almacenar la informacion de cada trip
+  const [selectedTrip, setSelectedTrip] = useState<Trips | null>(null);
+
+  const handleOpen = (trip: Trips) => {
+    setSelectedTrip(trip);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedTrip(null); // Resetea el viaje seleccionado
+  };
+
 
   return (
-    <div>
+    <Grid2 spacing={1} container>
       {dataTrips &&
         dataTrips.map((trips) => (
           <Card sx={{ maxWidth: 300 }} key={trips.id_trip}>
             <IconButton aria-label="settings">
-              <MoreVertIcon onClick={handleOpen} />
+              <MoreVertIcon onClick={()=> handleOpen(trips)} />
             </IconButton>
             <CardHeader title={`Destination: ${trips.destination}`} />
             <CardMedia
@@ -60,14 +73,14 @@ const TripsCard = ({ dataTrips }: tripsInfo) => {
           </Card>
         ))}
 
-      {open ? (
+      {selectedTrip && (
         <TripsModal
-          dataTrips={dataTrips}
+          dataTrips={selectedTrip}
           handleClose={handleClose}
           open={open}
         />
-      ) : null}
-    </div>
+      ) }
+    </Grid2>
   );
 };
 

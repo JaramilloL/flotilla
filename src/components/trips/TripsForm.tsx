@@ -10,13 +10,9 @@ import {
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Trips } from "../../interfaces/globalTypes";
 import { useEffect, useState } from "react";
-import { createClient } from "@supabase/supabase-js";
-
-//en este componente vamos a crear el formulario para agregar usuarios mediante insert
-const supabase = createClient(
-  import.meta.env.VITE_APP_URL || "",
-  import.meta.env.VITE_APP_KEY || ""
-);
+import ShortUniqueId from "short-unique-id";
+import { toast, ToastContainer } from "react-toastify";
+import { supabase } from "../../utils/supabaseAccess";
 
 interface Id_vehicle {
   id_vehicle: number;
@@ -86,14 +82,42 @@ const TripsForm = () => {
     })();
   }, []);
 
-  const onSubmit: SubmitHandler<Trips> = (dataTrip) => {
+  //creamos el id del id_trips
+  const id_tri = new ShortUniqueId({ length: 10, dictionary: "number" });
+  const id = id_tri.randomUUID();
+
+  const onSubmit: SubmitHandler<Trips> = async (dataTrip) => {
     try {
+      setLoading(true)
       reset();
       console.log(dataTrip);
+      const { data, error } = await supabase.from("trips").insert({
+        id_trips: id,
+        origin: dataTrip.origin,
+        destination: dataTrip.destination,
+        distance: dataTrip.distance,
+        trip_date: dataTrip.trip_date,
+        status: dataTrip.status,
+        fuel_consumed: dataTrip.fuel_consumed,
+        notes: dataTrip.notes,
+        vehicle_id: dataTrip.vehicle_id,
+        driver_id: dataTrip.driver_id,
+        transport_id: dataTrip.transport_id,
+      });
+
+      if (error) {
+        console.log(error.message);
+        toast.error(error.message);
+      } else {
+        console.log(data);
+        toast.success("Agree succefully");
+      }
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message);
       }
+    }finally{
+      setLoading(false)
     }
   };
   return (
@@ -103,6 +127,7 @@ const TripsForm = () => {
       m="0 auto"
       onSubmit={handleSubmit(onSubmit)}
     >
+      <ToastContainer />
       <TextField
         id="origin"
         label="origin"
@@ -233,9 +258,9 @@ const TripsForm = () => {
         <InputLabel id="driver-label">Driver</InputLabel>
         <Select
           labelId="driver-label"
-          id="vehicle_id"
-          {...register("vehicle_id", { required: true })}
-          error={!!errors?.vehicle_id}
+          id="driver_id"
+          {...register("driver_id", { required: true })}
+          error={!!errors?.driver_id}
           defaultValue=""
         >
           {dataDrivers.map((driver) => (
@@ -251,9 +276,9 @@ const TripsForm = () => {
         <InputLabel id="transport-label">Transport</InputLabel>
         <Select
           labelId="transport-label"
-          id="vehicle_id"
-          {...register("vehicle_id", { required: true })}
-          error={!!errors?.vehicle_id}
+          id="transport_id"
+          {...register("transport_id", { required: true })}
+          error={!!errors?.transport_id}
           defaultValue=""
         >
           {dataTransport.map((tranport) => (

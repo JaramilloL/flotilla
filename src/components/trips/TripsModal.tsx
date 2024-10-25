@@ -2,8 +2,8 @@ import { Box, Modal, Typography } from "@mui/material";
 import { Trips } from "../../interfaces/globalTypes";
 
 interface tripsInfo {
-  dataTrips: Trips[] | undefined;
-  handleClose: (value: boolean) => void;
+  dataTrips: Trips;
+  handleClose: () => void;
   open: boolean;
 }
 const TripsModal = ({ dataTrips, handleClose, open }: tripsInfo) => {
@@ -21,7 +21,6 @@ const TripsModal = ({ dataTrips, handleClose, open }: tripsInfo) => {
 
   return (
     <div>
-      {dataTrips?.map((item) => (
         <Modal
           open={open}
           onClose={handleClose}
@@ -32,19 +31,18 @@ const TripsModal = ({ dataTrips, handleClose, open }: tripsInfo) => {
           <Box sx={style}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
               <strong>Distance: </strong>
-              {item.distance}
+              {dataTrips.distance}
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               <strong>Trip date: </strong>
-              {item.trip_date}
+              {dataTrips.trip_date}
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               <strong>Status: </strong>
-              {item.status}
+              {dataTrips.status}
             </Typography>
           </Box>
         </Modal>
-      ))}
     </div>
   );
 };

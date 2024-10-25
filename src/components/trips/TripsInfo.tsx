@@ -1,18 +1,10 @@
 //vamos a traer la llave pra la conexion a supabase
-
-import { createClient } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Trips } from "../../interfaces/globalTypes";
 import TripsCard from "./TripsCard";
-import { Box } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
-
-//creamos el acceso a la base de datos de usuer para mostrar informacion
-const supabase = createClient(
-  import.meta.env.VITE_APP_URL || "",
-  import.meta.env.VITE_APP_KEY || ""
-);
+import { supabase } from "../../utils/supabaseAccess";
+import Progress from "../../utils/Progress";
 
 const TripsInfo = () => {
   //creamos un estado pra almacenar los datos de supabase
@@ -43,9 +35,7 @@ const TripsInfo = () => {
 
   if (loadingData) {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <CircularProgress color="secondary" size="50px" />
-      </Box>
+      <Progress/>
     );
   }
   return (
