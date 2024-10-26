@@ -10,8 +10,8 @@ import {
   TableRow,
 } from "@mui/material";
 import { Maintenance } from "../../interfaces/globalTypes";
-import CircularProgress from "@mui/material/CircularProgress";
 import { Link } from "react-router-dom";
+import Progress from "../../utils/Progress";
 
 interface maintenanceInfo {
   dataMaintenance: Maintenance[] | undefined;
@@ -31,9 +31,7 @@ const MaintenanceTable = ({
 
   if (loadingData)
     return (
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <CircularProgress color="secondary" size="50px" />
-      </Box>
+      <Progress/>
     );
   return (
     <Box>

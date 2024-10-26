@@ -2,17 +2,11 @@ import Button from "@mui/material/Button";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 import { Link, Navigate } from "react-router-dom";
-import { createClient } from "@supabase/supabase-js";
 import { UserFlotilla } from "../../interfaces/globalTypes";
 import CardUser from "./CardUser";
 import { Box } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
-
-//creamos el acceso a la base de datos de usuer para mostrar informacion
-const supabase = createClient(
-  import.meta.env.VITE_APP_URL || "",
-  import.meta.env.VITE_APP_KEY || ""
-);
+import { supabase } from "../../utils/supabaseAccess";
+import Progress from "../../utils/Progress";
 
 const UserInfo = () => {
   //creamos otro estado para la carga de datos
@@ -71,9 +65,7 @@ const UserInfo = () => {
   if (!user) return <Navigate to="/" />;
   if (loadingData)
     return (
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <CircularProgress color="secondary" size="50px" />
-      </Box>
+      <Progress/>
     );
 
   return (

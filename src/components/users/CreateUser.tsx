@@ -1,25 +1,18 @@
 import { Box, TextField, Button } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { UserFlotilla } from "../../interfaces/globalTypes";
-import { createClient } from "@supabase/supabase-js";
-import ShortUniqueId from "short-unique-id";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useContext, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
+import Progress from "../../utils/Progress";
+import { supabase } from "../../utils/supabaseAccess";
+import { id } from "../../utils/GenerateId";
 
-//en este componente vamos a crear el formulario para agregar usuarios mediante insert
-const supabase = createClient(
-  import.meta.env.VITE_APP_URL || "",
-  import.meta.env.VITE_APP_KEY || ""
-);
 const CreateUser = () => {
   //creamos un estdo para que el boton de envio sea disable para el usuario mientras envia datos
   const [chargerData, setChargerData] = useState<boolean>(false);
-
-  const uid = new ShortUniqueId({ length: 10, dictionary: "number" });
-  const id = uid.randomUUID();
 
   //usamos react-hook-form para el registro de datos y el envio
   const {
@@ -72,7 +65,7 @@ const CreateUser = () => {
 
   const { loadingAuth, user } = context || {}
 
-  if(loadingAuth) return <h1>Loading.....</h1>
+  if(loadingAuth) return <Progress/>
 
   if(!user) return <Navigate to="/" />
 

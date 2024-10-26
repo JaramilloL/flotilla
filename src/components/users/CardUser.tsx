@@ -8,19 +8,13 @@ import {
   Typography,
 } from "@mui/material";
 import { UserFlotilla } from "../../interfaces/globalTypes";
-import { createClient } from "@supabase/supabase-js";
 import { useState } from "react";
 import FormUpdate from "./FormUpdate";
+import { supabase } from "../../utils/supabaseAccess";
 
 interface DataUser {
   dataUser: UserFlotilla[] | undefined;
 }
-
-//creamos el acceso a la base de datos de usuer para mostrar informacion
-const supabase = createClient(
-  import.meta.env.VITE_APP_URL || "",
-  import.meta.env.VITE_APP_KEY || ""
-);
 
 const CardUser = ({ dataUser }: DataUser) => {
   const [users, setUsers] = useState(dataUser);

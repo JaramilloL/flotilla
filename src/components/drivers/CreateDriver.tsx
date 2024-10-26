@@ -3,18 +3,11 @@ import TextField from "@mui/material/TextField";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Drivers } from "../../interfaces/globalTypes";
 import { Link } from "react-router-dom";
-import { createClient } from "@supabase/supabase-js";
-import ShortUniqueId from "short-unique-id";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
-
-
-//en este componente vamos a crear el formulario para agregar usuarios mediante insert
-const supabase = createClient(
-    import.meta.env.VITE_APP_URL || "",
-    import.meta.env.VITE_APP_KEY || ""
-  );
+import { supabase } from "../../utils/supabaseAccess";
+import { id } from "../../utils/GenerateId";
 
   interface Id_user {
     id_users: number;
@@ -24,8 +17,6 @@ const supabase = createClient(
   }
 
 const CreateDriver = () => {
-    const uid = new ShortUniqueId({ length: 10, dictionary: "number" });
-    const id = uid.randomUUID();
 
     //creamos un estado para el envio de datos
     const [loadingCharge, setLoadingCharge] = useState<boolean>(false)

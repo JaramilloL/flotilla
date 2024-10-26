@@ -1,15 +1,10 @@
-import { createClient, User } from "@supabase/supabase-js";
+import { User } from "@supabase/supabase-js";
 import { StateChildren } from "../interfaces/globalTypes";
 import { UserContext } from "./UserContext";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
-
-//se movio fuera del componente para evitar multiples resderizados
-const supabase = createClient(
-  import.meta.env.VITE_APP_URL || "",
-  import.meta.env.VITE_APP_KEY || ""
-);
+import { supabase } from "../utils/supabaseAccess";
 
 const StateContext = ({ children }: StateChildren) => {
 

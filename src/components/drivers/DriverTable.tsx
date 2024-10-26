@@ -10,8 +10,8 @@ import {
   TableRow,
 } from "@mui/material";
 import { Drivers } from "../../interfaces/globalTypes";
-import CircularProgress from "@mui/material/CircularProgress";
 import { Link } from "react-router-dom";
+import Progress from "../../utils/Progress";
 
 interface tableInfo {
   dataDrivers: Drivers[] | undefined;
@@ -22,9 +22,7 @@ interface tableInfo {
 const DriverTable = ({ dataDrivers, loadingData, deleteDriver }: tableInfo) => {
   if (loadingData)
     return (
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <CircularProgress color="secondary" size="50px" />
-      </Box>
+      <Progress/>
     );
   return (
     <Box>

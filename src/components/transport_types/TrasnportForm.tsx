@@ -12,25 +12,16 @@ import { UserContext } from "../../context/UserContext";
 import { Link, Navigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Transport } from "../../interfaces/globalTypes";
-import ShortUniqueId from "short-unique-id";
-import { createClient } from "@supabase/supabase-js";
 import { toast } from "react-toastify";
-
-//en este componente vamos a crear el formulario para agregar usuarios mediante insert
-const supabase = createClient(
-  import.meta.env.VITE_APP_URL || "",
-  import.meta.env.VITE_APP_KEY || ""
-);
+import { supabase } from "../../utils/supabaseAccess";
+import Progress from "../../utils/Progress";
+import { id } from "../../utils/GenerateId";
 
 interface vehicle {
   id_vehicle: number;
 }
 
 const TrasnportForm = () => {
-  //creacion del id
-  const uid = new ShortUniqueId({ length: 10, dictionary: "number" });
-  const id = uid.randomUUID();
-
   //creamos un estado para lamcenar los id de los vehiculos
   const [dataVehicle, setDataVehicle] = useState<vehicle[]>([]);
 
@@ -91,7 +82,7 @@ const TrasnportForm = () => {
   }
 
   const { user, loadingAuth } = context || {};
-  if (loadingAuth) return <h1>Loading...</h1>;
+  if (loadingAuth) return <Progress/>;
   if (!user) return <Navigate to="/" />;
   return (
     <Box

@@ -1,17 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 import { Navigate } from "react-router-dom";
-import { createClient } from "@supabase/supabase-js";
 import { Maintenance } from "../../interfaces/globalTypes";
 import MaintenanceTable from "./MaintenanceTable";
-import { Box } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
+import Progress from "../../utils/Progress";
+import { supabase } from "../../utils/supabaseAccess";
 
-//creamos el acceso a la base de datos de usuer para mostrar informacion
-const supabase = createClient(
-  import.meta.env.VITE_APP_URL || "",
-  import.meta.env.VITE_APP_KEY || ""
-);
 
 const MaintenanceInfo = () => {
   //guardmos los datos resividos en un estado de react
@@ -74,9 +68,7 @@ const MaintenanceInfo = () => {
 
   if (loadingAuth)
     return (
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <CircularProgress color="secondary" size="50px" />
-      </Box>
+     <Progress/>
     );
   if (!user) return <Navigate to="/" />;
 

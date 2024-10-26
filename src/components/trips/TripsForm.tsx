@@ -10,9 +10,9 @@ import {
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Trips } from "../../interfaces/globalTypes";
 import { useEffect, useState } from "react";
-import ShortUniqueId from "short-unique-id";
 import { toast, ToastContainer } from "react-toastify";
 import { supabase } from "../../utils/supabaseAccess";
+import { id } from "../../utils/GenerateId";
 
 interface Id_vehicle {
   id_vehicle: number;
@@ -82,10 +82,6 @@ const TripsForm = () => {
     })();
   }, []);
 
-  //creamos el id del id_trips
-  const id_tri = new ShortUniqueId({ length: 10, dictionary: "number" });
-  const id = id_tri.randomUUID();
-
   const onSubmit: SubmitHandler<Trips> = async (dataTrip) => {
     try {
       setLoading(true)
@@ -135,6 +131,7 @@ const TripsForm = () => {
         error={!!errors?.origin}
         helperText={errors?.origin?.message}
         margin="normal"
+        autoComplete="off"
         {...register("origin", {
           required: {
             value: true,
@@ -150,6 +147,7 @@ const TripsForm = () => {
         error={!!errors?.destination}
         helperText={errors?.destination?.message}
         margin="normal"
+        autoComplete="off"
         {...register("destination", {
           required: {
             value: true,
@@ -197,6 +195,7 @@ const TripsForm = () => {
         error={!!errors?.notes}
         helperText={errors?.notes?.message}
         margin="normal"
+        autoComplete="off"
         {...register("notes", {
           required: {
             value: true,
@@ -212,6 +211,7 @@ const TripsForm = () => {
         error={!!errors?.status}
         helperText={errors?.status?.message}
         margin="normal"
+        autoComplete="off"
         {...register("status", {
           required: {
             value: true,

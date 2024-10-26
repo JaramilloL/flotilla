@@ -1,19 +1,11 @@
-import { createClient } from "@supabase/supabase-js";
 import { useContext, useEffect, useState } from "react";
 import { Vehicles } from "../../interfaces/globalTypes";
 import TableVehicles from "./TableVehicles";
 import { UserContext } from "../../context/UserContext";
 import { Navigate } from "react-router-dom";
-import { Box } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
-
-
-//creamos el acceso a la base de datos de usuer para mostrar informacion
-const supabase = createClient(
-    import.meta.env.VITE_APP_URL || "",
-    import.meta.env.VITE_APP_KEY || ""
-  );
-  
+import Progress from "../../utils/Progress";
+import { supabase } from "../../utils/supabaseAccess";
+ 
 const VehiclesInfo = () => {
     //creamos un estdo para almacenar la informacion de los vehiculos
     const [dataVehicle, setDataVehicle] = useState<Vehicles[]>([])
@@ -53,9 +45,7 @@ const VehiclesInfo = () => {
     const { user, loadingAuth } = context;
 
     if (loadingAuth) return (
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <CircularProgress color="secondary" size="50px" />
-        </Box>
+        <Progress/>
       );
     if(!user) return <Navigate to='/' />
 

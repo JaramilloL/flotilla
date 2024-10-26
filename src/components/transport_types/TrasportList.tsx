@@ -12,7 +12,7 @@ import ImageIcon from "@mui/icons-material/Image";
 import { Transport } from "../../interfaces/globalTypes";
 import { deepOrange } from "@mui/material/colors";
 import { Link } from "react-router-dom";
-import CircularProgress from "@mui/material/CircularProgress";
+import Progress from "../../utils/Progress";
 interface dataInfo {
   dataTrasnports: Transport[] | undefined;
   deleteTransport: (value: number) => void;
@@ -27,9 +27,7 @@ const TrasportList = ({
   loadingData
 }: dataInfo) => {
   if(loadingData) return  (
-    <Box sx={{ display: "flex", justifyContent: "center" }}>
-      <CircularProgress color="secondary" size="50px" />
-    </Box>
+    <Progress/>
   );
   return (
     <Box>

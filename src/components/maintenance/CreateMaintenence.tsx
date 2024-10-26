@@ -10,15 +10,9 @@ import {
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { Maintenance } from "../../interfaces/globalTypes";
-import { createClient } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 import ShortUniqueId from "short-unique-id";
-
-//en este componente vamos a crear el formulario para agregar usuarios mediante insert
-const supabase = createClient(
-  import.meta.env.VITE_APP_URL || "",
-  import.meta.env.VITE_APP_KEY || ""
-);
+import { supabase } from "../../utils/supabaseAccess";
 
 interface Id_vehicle {
   id_vehicle: number;

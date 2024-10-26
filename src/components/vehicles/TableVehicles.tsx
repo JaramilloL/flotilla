@@ -10,17 +10,12 @@ import {
   Button,
 } from "@mui/material";
 import { Vehicles } from "../../interfaces/globalTypes";
-import CircularProgress from "@mui/material/CircularProgress";
-import { createClient } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import FormUpdate from "./FormUpdate";
+import Progress from "../../utils/Progress";
+import { supabase } from "../../utils/supabaseAccess";
 
-//creamos el acceso a la base de datos de usuer para mostrar informacion
-const supabase = createClient(
-  import.meta.env.VITE_APP_URL || "",
-  import.meta.env.VITE_APP_KEY || ""
-);
 interface vehiclesInfo {
   dataVehicle: Vehicles[] | undefined;
   loading: boolean;
@@ -115,9 +110,7 @@ const TableVehicles = ({ dataVehicle: initialData, loading }: vehiclesInfo) => {
 
   if (loading)
     return (
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <CircularProgress color="secondary" size="50px" />
-      </Box>
+      <Progress/>
     );
   return (
     <Box>

@@ -1,16 +1,9 @@
-import { createClient } from "@supabase/supabase-js";
 import { useContext, useEffect, useState } from "react";
 import { Drivers } from "../../interfaces/globalTypes";
 import DriverTable from "./DriverTable";
 import { UserContext } from "../../context/UserContext";
 import { Navigate } from "react-router-dom";
-
-//creamos el acceso a la base de datos de usuer para mostrar informacion
-const supabase = createClient(
-    import.meta.env.VITE_APP_URL || "",
-    import.meta.env.VITE_APP_KEY || ""
-  );
-
+import { supabase } from "../../utils/supabaseAccess";
 
 const DriverInfo = () => {
     //creamos un estado para almacenar los datos

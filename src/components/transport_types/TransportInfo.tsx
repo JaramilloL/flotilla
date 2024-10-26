@@ -1,4 +1,3 @@
-import { createClient } from "@supabase/supabase-js";
 import { useContext, useEffect, useState } from "react"
 import { Transport } from "../../interfaces/globalTypes";
 import TrasportList from "./TrasportList";
@@ -6,13 +5,8 @@ import { Box, Typography } from "@mui/material";
 import { UserContext } from "../../context/UserContext";
 import { Navigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify'
-import CircularProgress from "@mui/material/CircularProgress";
-
-//creamos el acceso a la base de datos de usuer para mostrar informacion
-const supabase = createClient(
-    import.meta.env.VITE_APP_URL || "",
-    import.meta.env.VITE_APP_KEY || ""
-  );
+import { supabase } from "../../utils/supabaseAccess";
+import Progress from "../../utils/Progress";
 
 const TransportInfo = () => {
     const [dataTrasnports, setDataTrasnports] = useState<Transport[]>([])
@@ -73,9 +67,7 @@ const TransportInfo = () => {
     const { user, loadingAuth } = context || {};
 
     if(loadingAuth) return (
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <CircularProgress color="secondary" size="50px" />
-        </Box>
+        <Progress/>
       );
     if(!user) return <Navigate to='/'/>
     

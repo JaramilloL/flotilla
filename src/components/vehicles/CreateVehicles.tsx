@@ -4,23 +4,14 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Vehicles } from "../../interfaces/globalTypes";
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
-import CircularProgress from "@mui/material/CircularProgress";
 import { Link, Navigate } from "react-router-dom";
-import { createClient } from "@supabase/supabase-js";
-import ShortUniqueId from "short-unique-id";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-//creamos el acceso a la base de datos de usuer para mostrar informacion
-const supabase = createClient(
-  import.meta.env.VITE_APP_URL || "",
-  import.meta.env.VITE_APP_KEY || ""
-);
+import Progress from "../../utils/Progress";
+import { supabase } from "../../utils/supabaseAccess";
+import { id } from "../../utils/GenerateId";
 
 const CreateVehicles = () => {
-  //creamos un id para el vehiculo
-  const uid = new ShortUniqueId({ length: 10, dictionary: "number" });
-  const id = uid.randomUUID();
   const context = useContext(UserContext);
 
   const {
@@ -67,9 +58,7 @@ const CreateVehicles = () => {
   const { user, loadingAuth } = context || {};
   if (loadingAuth)
     return (
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <CircularProgress color="secondary" size="50px" />
-      </Box>
+      <Progress/>
     );
 
   if (!user) return <Navigate to="/" />;
