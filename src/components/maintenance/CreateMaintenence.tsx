@@ -11,17 +11,14 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { Maintenance } from "../../interfaces/globalTypes";
 import { useEffect, useState } from "react";
-import ShortUniqueId from "short-unique-id";
 import { supabase } from "../../utils/supabaseAccess";
+import { id } from "../../utils/GenerateId";
 
 interface Id_vehicle {
   id_vehicle: number;
 }
 
 const CreateMaintenence = () => {
-  //creacion del id
-  const uid = new ShortUniqueId({ length: 10, dictionary: "number" });
-  const id = uid.randomUUID();
   //extraemos de la tabla de vehiculos para elejir el vehiculo
   const [dataVehicle, setdataVehicle] = useState<Id_vehicle[]>([]);
 
