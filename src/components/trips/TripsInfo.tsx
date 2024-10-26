@@ -1,12 +1,15 @@
 //vamos a traer la llave pra la conexion a supabase
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Trips } from "../../interfaces/globalTypes";
 import TripsCard from "./TripsCard";
 import { supabase } from "../../utils/supabaseAccess";
 import Progress from "../../utils/Progress";
+import { UserContext } from "../../context/UserContext";
+import { Navigate } from "react-router-dom";
 
 const TripsInfo = () => {
+
   //creamos un estado pra almacenar los datos de supabase
   const [dataTrips, setDataTrips] = useState<Trips[]>([]);
   //creamos el estado de carga de los datos
@@ -49,11 +52,24 @@ const TripsInfo = () => {
     }
   }
 
+  //graemos el contexto dela app para ver si el usuario esta autenticado
+  const context = useContext(UserContext)
+  
   if (loadingData) {
     return (
       <Progress/>
     );
   }
+  if(!context){
+      throw new Error('no context available')
+  }
+
+  const { user, loadingAuth } = context || {};
+
+  if(loadingAuth) return (
+      <Progress/>
+    );
+  if(!user) return <Navigate to='/'/>
   return (
     <div>
       <TripsCard dataTrips={dataTrips} deleteTrips={deleteTrips} />

@@ -36,7 +36,6 @@ const TripsCard = ({ dataTrips, deleteTrips }: tripsInfo) => {
     setSelectedTrip(null); // Resetea el viaje seleccionado
   };
 
-
   return (
     <Grid2 spacing={1} container>
       {dataTrips &&
