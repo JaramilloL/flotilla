@@ -26,7 +26,7 @@ export interface Drivers{
 }
 
 export interface Trips{
-    id_trip: number;
+    id_trips: number;
     vehicle_id: number;
     driver_id: number;
     transport_id: number;

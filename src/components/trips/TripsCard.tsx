@@ -17,9 +17,10 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 interface tripsInfo {
   dataTrips: Trips[] | undefined;
+  deleteTrips: ( value: number)=> void;
 }
 
-const TripsCard = ({ dataTrips }: tripsInfo) => {
+const TripsCard = ({ dataTrips, deleteTrips }: tripsInfo) => {
   const [open, setOpen] = useState<boolean>(false);
 
   //creamos un estado y una funcion para almacenar la informacion de cada trip
@@ -40,7 +41,7 @@ const TripsCard = ({ dataTrips }: tripsInfo) => {
     <Grid2 spacing={1} container>
       {dataTrips &&
         dataTrips.map((trips) => (
-          <Card sx={{ maxWidth: 300 }} key={trips.id_trip}>
+          <Card sx={{ maxWidth: 300 }} key={trips?.id_trips}>
             <IconButton aria-label="settings">
               <MoreVertIcon onClick={()=> handleOpen(trips)} />
             </IconButton>
@@ -62,7 +63,7 @@ const TripsCard = ({ dataTrips }: tripsInfo) => {
             <CardActions>
               <Box display="flex" justifyContent="space-evenly" width="100%">
                 <Button size="small">Agree</Button>
-                <Button size="small" color="error">
+                <Button size="small" color="error" onClick={() => trips?.id_trips !== undefined && deleteTrips(trips?.id_trips)}>
                   Delete
                 </Button>
                 <Button size="small" color="secondary">

@@ -33,6 +33,22 @@ const TripsInfo = () => {
     })();
   }, []);
 
+  const deleteTrips = async (id_trip: number) => {
+    try {
+      const { error } = await supabase.from('trips').delete().eq('id_trips', id_trip);
+
+      if(error){
+        toast.error(error.message);
+      }else{
+        setDataTrips((prev) => prev?.filter((data) => data?.id_trips !== id_trip))
+      }
+    } catch (error) {
+      if(error instanceof Error) {
+        console.log(error.message);
+      }
+    }
+  }
+
   if (loadingData) {
     return (
       <Progress/>
@@ -40,7 +56,7 @@ const TripsInfo = () => {
   }
   return (
     <div>
-      <TripsCard dataTrips={dataTrips} />
+      <TripsCard dataTrips={dataTrips} deleteTrips={deleteTrips} />
     </div>
   );
 };
