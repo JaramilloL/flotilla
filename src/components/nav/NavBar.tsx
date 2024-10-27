@@ -2,8 +2,11 @@ import { AppBar, Box, Button, Drawer, IconButton, Toolbar, Typography } from "@m
 import MenuIcon from '@mui/icons-material/Menu';
 import NavList from "./NavList";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { listOfLinks } from "../../utils/listLinks";
 
 const NavBar = () => {
+
     const [open, setOpen] = useState(false)
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -22,14 +25,23 @@ const NavBar = () => {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Flotilla
         </Typography>
-        <Button color="inherit">Login</Button>
+        <Box sx={{ display: { xs: "none", sm: "block" }, mr: 2 }}>
+        {
+            listOfLinks.map((list, index) => (
+                <Button key={index} color="inherit">
+                    <Link style={{ textDecoration: 'none', color: 'white' }} to={list.link}>{list.name}</Link>
+                </Button>
+
+            ))
+        }
+        </Box>
       </Toolbar>
     </AppBar>
     <Drawer
         open={open}
         anchor="left"
         onClose={() => setOpen(false)}
-        sx={{ display: { xs: "block", sm: "none" } }}
+        sx={{ display: { xs: "block", md: "none" } }}
       >
         <NavList onClick={() => setOpen(false)} />
       </Drawer>

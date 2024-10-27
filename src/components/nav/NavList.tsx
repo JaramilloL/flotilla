@@ -1,10 +1,11 @@
 import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
 import { useContext } from "react"
 import { UserContext } from "../../context/UserContext"
-import { NavLink } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 import LoginIcon from "@mui/icons-material/Login";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import LogoutIcon from '@mui/icons-material/Logout';
+import { listOfLinks } from "../../utils/listLinks";
 
 interface ShowList{
     onClick: () => void;
@@ -26,12 +27,29 @@ const NavList = ({ onClick }: ShowList) => {
         <ListItem disablePadding sx={{ display: "block" }}>
         {
           user ? (
+            <>
             <ListItemButton>
               <ListItemIcon onClick={signOutUser}>
                   <LogoutIcon/>
                 <ListItemText>LogOut</ListItemText>
               </ListItemIcon>
             </ListItemButton>
+            {listOfLinks.map((item, index) => (
+                  <ListItem key={index} disablePadding>
+                    <ListItemButton>
+                      <ListItemText>
+                        <Link
+                          style={{ textDecoration: "none", color: "black" }}
+                          to={item.link}
+                        >
+                          {item.name}
+                        </Link>
+                      </ListItemText>
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+            </>
+            
           ):(
             <>
               <ListItemButton>

@@ -17,7 +17,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 interface tripsInfo {
   dataTrips: Trips[] | undefined;
-  deleteTrips: ( value: number)=> void;
+  deleteTrips: (value: number) => void;
 }
 
 const TripsCard = ({ dataTrips, deleteTrips }: tripsInfo) => {
@@ -42,12 +42,12 @@ const TripsCard = ({ dataTrips, deleteTrips }: tripsInfo) => {
         dataTrips.map((trips) => (
           <Card sx={{ maxWidth: 300 }} key={trips?.id_trips}>
             <IconButton aria-label="settings">
-              <MoreVertIcon onClick={()=> handleOpen(trips)} />
+              <MoreVertIcon onClick={() => handleOpen(trips)} />
             </IconButton>
             <CardHeader title={`Destination: ${trips.destination}`} />
             <CardMedia
               sx={{ height: 140 }}
-              image="/static/images/cards/contemplative-reptile.jpg"
+              image="https://via.placeholder.com/600/92c952"
               title="green iguana"
             />
             <CardContent>
@@ -62,11 +62,15 @@ const TripsCard = ({ dataTrips, deleteTrips }: tripsInfo) => {
             <CardActions>
               <Box display="flex" justifyContent="space-evenly" width="100%">
                 <Button size="small">Agree</Button>
-                <Button size="small" color="error" onClick={() => trips?.id_trips !== undefined && deleteTrips(trips?.id_trips)}>
+                <Button
+                  size="small"
+                  color="error"
+                  onClick={() =>
+                    trips?.id_trips !== undefined &&
+                    deleteTrips(trips?.id_trips)
+                  }
+                >
                   Delete
-                </Button>
-                <Button size="small" color="secondary">
-                  Update
                 </Button>
               </Box>
             </CardActions>
@@ -79,7 +83,7 @@ const TripsCard = ({ dataTrips, deleteTrips }: tripsInfo) => {
           handleClose={handleClose}
           open={open}
         />
-      ) }
+      )}
     </Grid2>
   );
 };
