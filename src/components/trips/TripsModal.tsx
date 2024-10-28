@@ -12,7 +12,7 @@ const TripsModal = ({ dataTrips, handleClose, open }: tripsInfo) => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
+    width: '50%',
     bgcolor: "background.paper",
     border: "1px solid #000",
     boxShadow: 2,
@@ -20,7 +20,7 @@ const TripsModal = ({ dataTrips, handleClose, open }: tripsInfo) => {
   };
 
   return (
-    <div>
+    <Box>
         <Modal
           open={open}
           onClose={handleClose}
@@ -28,7 +28,7 @@ const TripsModal = ({ dataTrips, handleClose, open }: tripsInfo) => {
           aria-describedby="modal-modal-description"
           sx={{ color: 'orange' }}
         >
-          <Box sx={style}>
+          <Box sx={style} >
             <Typography id="modal-modal-title" variant="h6" component="h2">
               <strong>Distance: </strong>
               {dataTrips.distance}
@@ -43,7 +43,7 @@ const TripsModal = ({ dataTrips, handleClose, open }: tripsInfo) => {
             </Typography>
           </Box>
         </Modal>
-    </div>
+    </Box>
   );
 };
 
