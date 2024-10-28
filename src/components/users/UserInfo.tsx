@@ -45,21 +45,7 @@ const UserInfo = () => {
   if (!context) {
     throw new Error("a fallado");
   }
-  const { signOutUser, user } = context || {};
-
-  //creamos una funcion para cerrar ecion
-  const closeseccion = () => {
-    try {
-      if (signOutUser) {
-        signOutUser();
-      }
-      //   navigate('/')
-    } catch (error) {
-      if (error instanceof Error) {
-        console.log(error.message);
-      }
-    }
-  };
+  const { user } = context || {};
 
   console.log(user);
   if (!user) return <Navigate to="/" />;
@@ -71,9 +57,6 @@ const UserInfo = () => {
   return (
     <div>
       <Box width="100%" display="flex" justifyContent="space-evenly">
-        <Button variant="contained" color="primary" onClick={closeseccion}>
-          LogOut
-        </Button>
         <Button variant="contained" color="secondary">
           <Link
             to="/formUser"

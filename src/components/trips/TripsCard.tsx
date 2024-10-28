@@ -14,6 +14,7 @@ import { Trips } from "../../interfaces/globalTypes";
 import { useState } from "react";
 import TripsModal from "./TripsModal";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Link } from "react-router-dom";
 
 interface tripsInfo {
   dataTrips: Trips[] | undefined;
@@ -37,7 +38,11 @@ const TripsCard = ({ dataTrips, deleteTrips }: tripsInfo) => {
   };
 
   return (
-    <Grid2 spacing={1} container>
+    <Box>
+      <Button variant="contained" color="secondary">
+        <Link style={{ textDecoration: 'none', color: 'white'}} to='/tripsForm'>Form</Link>
+      </Button>
+      <Grid2 spacing={1} container>
       {dataTrips &&
         dataTrips.map((trips) => (
           <Card sx={{ maxWidth: 300 }} key={trips?.id_trips}>
@@ -85,6 +90,7 @@ const TripsCard = ({ dataTrips, deleteTrips }: tripsInfo) => {
         />
       )}
     </Grid2>
+    </Box>
   );
 };
 
