@@ -81,7 +81,8 @@ const CardUser = ({ dataUser }: DataUser) => {
   };
 
   return (
-    <Grid2 container spacing={2}>
+    <Box>
+      <Grid2 container spacing={2}>
       {users &&
         users.map((item) => (
           <Card sx={{ maxWidth: 250 }} key={item.id_users}>
@@ -139,6 +140,7 @@ const CardUser = ({ dataUser }: DataUser) => {
         />
       )}
     </Grid2>
+    </Box>
   );
 };
 
