@@ -26,12 +26,13 @@ const Register = () => {
   } = useForm<Auth>(); //le pasamos los parametros a esperar
 
   //creamos la funcion de envio de datos del usuario
-  const onSubmit: SubmitHandler<Auth> = (data) => {
+  const onSubmit: SubmitHandler<Auth> = async(data) => {
     try {
       console.log(data);
-      signUpUser(data.email, data.password);
+      await signUpUser(data.email, data.password);
       reset();
       navigate("/");
+      
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message);

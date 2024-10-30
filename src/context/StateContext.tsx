@@ -20,6 +20,7 @@ const StateContext = ({ children }: StateChildren) => {
         password,
         options: {
           emailRedirectTo: "http://localhost:5173/users",
+          data: { role: 'super_admin' } //TODO: asignamos el rol del usuario
         },
       });
       if (error) {
@@ -47,6 +48,9 @@ const StateContext = ({ children }: StateChildren) => {
             toast.error(error.message);
         }else if (data.user){
             setUser(data.user)
+            //Obtener el rol del usuario 
+            const { user } = data; 
+            const role = user.app_metadata?.role; console.log("User role:", role);
             console.log(data.session)
             console.log(data.session.access_token)
         }

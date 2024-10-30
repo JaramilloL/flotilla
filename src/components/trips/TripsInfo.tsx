@@ -72,6 +72,15 @@ const TripsInfo = () => {
   if(!user) return <Navigate to='/'/>
   return (
     <div>
+      {
+        user && user?.role === 'super_admin' ? (<>
+          <p>Super Admin</p>
+        </>): (
+          <>
+            <p>no super admin</p>
+          </>
+        )
+      }
       <TripsCard dataTrips={dataTrips} deleteTrips={deleteTrips} />
     </div>
   );
