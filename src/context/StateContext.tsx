@@ -25,6 +25,7 @@ const StateContext = ({ children }: StateChildren) => {
       });
       if (error) {
         toast.error(error.message);
+        console.log(error.message)
       } else if (data.user) {
         setUser(data.user);
         console.log("Usuario registrado:", data.user);
